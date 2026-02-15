@@ -11,7 +11,7 @@ MindLedger Core is the **first phase** of the MindLedger ecosystem — a SaaS-st
 
 ### Includes
 - 🔐 **Authentication & Authorization** — JWT + rotating refresh tokens, RBAC  
-- ✅ **Task Management** — track and update tasks with progress and status  
+- ✅ **Task Management** — track and update task with progress and status  
 - 💰 **Financial Tracker** — manage income, expenses, and categories  
 - 📘 **Swagger Documentation** — auto-generated API docs  
 - 🧪 **Automated Testing** — unit and e2e tests with Jest + Supertest  
@@ -36,8 +36,8 @@ MindLedger Core is the **first phase** of the MindLedger ecosystem — a SaaS-st
 | Module | Description |
 |:--|:--|
 | `auth` | Handles registration, login, JWT, and refresh logic |
-| `users` | Manages user profiles and roles |
-| `tasks` | Task CRUD operations, progress tracking, and status workflow |
+| `user` | Manages user profiles and roles |
+| `task` | Task CRUD operations, progress tracking, and status workflow |
 | `finance` | Transactions, categories, and monthly summaries |
 | `common` | Shared guards, interceptors, DTOs, and helpers |
 
@@ -136,22 +136,22 @@ npm run test:cov   # Coverage report
 | `POST` | `/auth/refresh` | Rotate refresh token |
 | `POST` | `/auth/logout` | Revoke refresh token |
 
-### 👤 Users
+### 👤 user
 
 | Method | Endpoint | Description |
 |:--|:--|:--|
-| `GET` | `/users/me` | Get current user |
-| `PATCH` | `/users/me` | Update profile |
-| `GET` | `/admin/users` | Admin-only: list all users |
+| `GET` | `/user/me` | Get current user |
+| `PATCH` | `/user/me` | Update profile |
+| `GET` | `/admin/user` | Admin-only: list all user |
 
-### 📋 Tasks
+### 📋 task
 
 | Method | Endpoint | Description |
 |:--|:--|:--|
-| `GET` | `/tasks` | List tasks (filter by status/date) |
-| `POST` | `/tasks` | Create new task |
-| `PATCH` | `/tasks/:id` | Update task details |
-| `DELETE` | `/tasks/:id` | Delete task |
+| `GET` | `/task` | List task (filter by status/date) |
+| `POST` | `/task` | Create new task |
+| `PATCH` | `/task/:id` | Update task details |
+| `DELETE` | `/task/:id` | Delete task |
 
 ### 💰 Finance
 
@@ -197,7 +197,7 @@ stages:
 
 | Phase | Focus | Status |
 |:--|:--|:--|
-| **Phase 1** | Core (Auth + Tasks + Finance) | ✅ In Progress |
+| **Phase 1** | Core (Auth + task + Finance) | ✅ In Progress |
 | **Phase 2** | Automation & Insights Service | ⏳ Planned |
 | **Phase 3** | Analytics, Integrations & Monitoring | 🔜 Upcoming |
 
@@ -222,7 +222,7 @@ MIT License © 2026 Mohammad Hosein
 **MindLedger Core** demonstrates:
 - Clean modular NestJS architecture  
 - Secure JWT authentication and refresh flows  
-- Domain separation for Tasks and Finance  
+- Domain separation for task and Finance  
 - Fully tested and Dockerized environment  
 - Scalable structure ready for microservices (Phase 2+)
 
