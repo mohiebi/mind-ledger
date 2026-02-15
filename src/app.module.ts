@@ -18,9 +18,8 @@ import { Task } from './tasks/entities/task.entity';
             imports: [ConfigModule],
             inject: [ConfigService],
             useFactory: (config: TypeConfigService): TypeOrmModuleOptions => {
-                const database = config.get<TypeOrmModuleOptions>('database');
                 return {
-                    ...database,
+                    ...config.get<TypeOrmModuleOptions>('database'),
                     entities: [Task, User],
                 };
             },
