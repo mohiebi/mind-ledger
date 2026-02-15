@@ -11,6 +11,7 @@ import { authConfig } from './config/auth.config';
 import { TypeConfigService } from './config/configuration.service';
 import { User } from './users/entities/user.entity';
 import { Task } from './tasks/entities/task.entity';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
     imports: [
@@ -32,6 +33,7 @@ import { Task } from './tasks/entities/task.entity';
         }),
         UsersModule,
         TasksModule,
+        AuthModule,
     ],
     controllers: [AppController],
     providers: [AppService],
