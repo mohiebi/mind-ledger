@@ -1,98 +1,229 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# 🧠 MindLedger Core
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+> **MindLedger Core** is a modular, production-ready backend built with **NestJS**, **PostgreSQL**, and **TypeORM**.  
+> It provides secure authentication, task management, and financial tracking — forming the foundation for a personal productivity and finance ecosystem.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+---
 
-## Description
+## 🚀 Overview
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+MindLedger Core is the **first phase** of the MindLedger ecosystem — a SaaS-style backend platform focused on **personal productivity**, **financial awareness**, and **data-driven insights**.
 
-## Project setup
+### Includes
+- 🔐 **Authentication & Authorization** — JWT + rotating refresh tokens, RBAC  
+- ✅ **Task Management** — track and update tasks with progress and status  
+- 💰 **Financial Tracker** — manage income, expenses, and categories  
+- 📘 **Swagger Documentation** — auto-generated API docs  
+- 🧪 **Automated Testing** — unit and e2e tests with Jest + Supertest  
+- 🐳 **Dockerized Development** — reproducible local setup with PostgreSQL  
+- ⚙️ **GitLab CI/CD** — automated linting, testing, and builds  
 
-```bash
-$ pnpm install
+---
+
+## 🏗️ Architecture
+
+**Type:** Modular Monolith  
+**Framework:** [NestJS](https://nestjs.com/)  
+**Database:** PostgreSQL (via TypeORM)  
+**Authentication:** JWT (access + refresh tokens)  
+**Documentation:** Swagger (OpenAPI)  
+**Testing:** Jest + Supertest  
+**Containerization:** Docker + Docker Compose  
+**CI/CD:** GitLab pipelines  
+
+### 🧩 Modules
+
+| Module | Description |
+|:--|:--|
+| `auth` | Handles registration, login, JWT, and refresh logic |
+| `users` | Manages user profiles and roles |
+| `tasks` | Task CRUD operations, progress tracking, and status workflow |
+| `finance` | Transactions, categories, and monthly summaries |
+| `common` | Shared guards, interceptors, DTOs, and helpers |
+
+---
+
+## 🧱 Database Schema (ERD)
+
+```text
+User ───< RefreshToken
+ │
+ ├──< Task
+ │
+ ├──< Category ───< Transaction
 ```
 
-## Compile and run the project
+- **User**: account, role, and preferences  
+- **Task**: status (open / in_progress / done), progress %, due_date  
+- **Transaction**: amount, type (income/expense), category, date  
+- **Category**: user-defined income/expense groups  
+- **RefreshToken**: hashed stored tokens for session management  
+
+---
+
+## ⚙️ Getting Started
+
+### 1️⃣ Clone & Install
 
 ```bash
-# development
-$ pnpm run start
-
-# watch mode
-$ pnpm run start:dev
-
-# production mode
-$ pnpm run start:prod
+git clone https://gitlab.com/your-username/mindledger-core.git
+cd mindledger-core
+npm install
 ```
 
-## Run tests
+### 2️⃣ Create `.env`
+
+```
+PORT=3000
+POSTGRES_HOST=localhost
+POSTGRES_PORT=5432
+POSTGRES_USER=mindledger
+POSTGRES_PASSWORD=secret
+POSTGRES_DB=mindledger_dev
+JWT_ACCESS_SECRET=your-access-secret
+JWT_REFRESH_SECRET=your-refresh-secret
+JWT_ACCESS_EXP=900s
+JWT_REFRESH_EXP=30d
+```
+
+### 3️⃣ Run with Docker
 
 ```bash
-# unit tests
-$ pnpm run test
-
-# e2e tests
-$ pnpm run test:e2e
-
-# test coverage
-$ pnpm run test:cov
+docker compose up -d
+npm run start:dev
 ```
 
-## Deployment
+App runs at → **http://localhost:3000**  
+Swagger docs → **http://localhost:3000/api/docs**
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+---
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+## 🧪 Running Tests
 
 ```bash
-$ pnpm install -g @nestjs/mau
-$ mau deploy
+npm run test       # Unit tests
+npm run test:e2e   # End-to-end tests
+npm run test:cov   # Coverage report
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+### Includes
+- Authentication flow (register → login → refresh)
+- Task CRUD lifecycle
+- Transaction CRUD + monthly summary
 
-## Resources
+---
 
-Check out a few resources that may come in handy when working with NestJS:
+## 🧰 Development Commands
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+| Command | Description |
+|:--|:--|
+| `npm run start:dev` | Start app in watch mode |
+| `npm run build` | Build production bundle |
+| `npm run lint` | Run ESLint |
+| `npm run format` | Format codebase |
+| `npm run test:e2e` | Run integration tests |
 
-## Support
+---
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+## 🧾 API Summary
 
-## Stay in touch
+### 🔐 Auth
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+| Method | Endpoint | Description |
+|:--|:--|:--|
+| `POST` | `/auth/register` | Register new user |
+| `POST` | `/auth/login` | Login (returns access + refresh tokens) |
+| `POST` | `/auth/refresh` | Rotate refresh token |
+| `POST` | `/auth/logout` | Revoke refresh token |
 
-## License
+### 👤 Users
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+| Method | Endpoint | Description |
+|:--|:--|:--|
+| `GET` | `/users/me` | Get current user |
+| `PATCH` | `/users/me` | Update profile |
+| `GET` | `/admin/users` | Admin-only: list all users |
+
+### 📋 Tasks
+
+| Method | Endpoint | Description |
+|:--|:--|:--|
+| `GET` | `/tasks` | List tasks (filter by status/date) |
+| `POST` | `/tasks` | Create new task |
+| `PATCH` | `/tasks/:id` | Update task details |
+| `DELETE` | `/tasks/:id` | Delete task |
+
+### 💰 Finance
+
+| Method | Endpoint | Description |
+|:--|:--|:--|
+| `GET` | `/transactions` | List transactions |
+| `POST` | `/transactions` | Add income/expense |
+| `GET` | `/summary/monthly` | Get monthly totals |
+| `GET` | `/categories` | List categories |
+| `POST` | `/categories` | Create new category |
+
+---
+
+## 🐙 CI/CD (GitLab)
+
+The GitLab CI pipeline runs:
+1. **Lint** → code style and static analysis  
+2. **Test** → unit + e2e tests  
+3. **Build** → Docker image creation and push  
+
+Example `.gitlab-ci.yml` structure:
+```yaml
+stages:
+  - lint
+  - test
+  - build
+```
+
+---
+
+## 🔒 Security Features
+
+- Bcrypt password hashing (12+ rounds)  
+- Rotating refresh tokens stored as hashes  
+- Role-based access control (`user`, `admin`)  
+- Input validation using `class-validator`  
+- Helmet + CORS protection  
+- Rate limiting on authentication endpoints  
+
+---
+
+## 🧭 Roadmap
+
+| Phase | Focus | Status |
+|:--|:--|:--|
+| **Phase 1** | Core (Auth + Tasks + Finance) | ✅ In Progress |
+| **Phase 2** | Automation & Insights Service | ⏳ Planned |
+| **Phase 3** | Analytics, Integrations & Monitoring | 🔜 Upcoming |
+
+---
+
+## 🧑‍💻 Author
+
+**Mohammad Hosein**  
+Fullstack Developer — NestJS / PHP / Vue / DevOps Enthusiast  
+[LinkedIn](#) · [GitLab](#) · [GitHub](#)
+
+---
+
+## 🏁 License
+
+MIT License © 2026 Mohammad Hosein
+
+---
+
+## ⭐ Summary
+
+**MindLedger Core** demonstrates:
+- Clean modular NestJS architecture  
+- Secure JWT authentication and refresh flows  
+- Domain separation for Tasks and Finance  
+- Fully tested and Dockerized environment  
+- Scalable structure ready for microservices (Phase 2+)
+
+> _This project serves as both a learning base and a professional portfolio piece — built to showcase senior-level backend architecture and design skills._
