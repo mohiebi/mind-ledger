@@ -3,7 +3,6 @@ import {
     Body,
     ConflictException,
     Injectable,
-    Post,
     UnauthorizedException,
 } from '@nestjs/common';
 import { CreateUserDto } from 'src/user/dto/create-user.dto';
@@ -15,7 +14,6 @@ import { LoginDto } from './login.dto';
 export class AuthService {
     constructor(private readonly userService: UserService) {}
 
-    @Post('register')
     async register(createUserDto: CreateUserDto): Promise<User> {
         const existingUser = await this.userService.findOneByEmail(createUserDto.email);
 
@@ -26,7 +24,6 @@ export class AuthService {
         return await this.userService.create(createUserDto);
     }
 
-    @Post('login')
     async login(@Body() loginDto: LoginDto): Promise<User> {
         const user = await this.userService.findOneByEmail(loginDto.email);
 
