@@ -14,7 +14,7 @@ export const appConfigSchema = Joi.object({
     POSTGRES_USER: Joi.string().required(),
     POSTGRES_PASSWORD: Joi.string().required(),
     POSTGRES_DB: Joi.string().required(),
-    POSTGRES_SYNC: Joi.string().valid('true', 'false').default('false'),
+    POSTGRES_SYNC: Joi.string().valid('true', 'false').default('true'),
     JWT_ACCESS_SECRET: Joi.string().required(),
     JWT_REFRESH_SECRET: Joi.string().required(),
     JWT_ACCESS_EXP: Joi.string().default('900s'),

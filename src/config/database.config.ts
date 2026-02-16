@@ -10,6 +10,7 @@ export const typeOrmConfig = registerAs(
         username: process.env.POSTGRES_USER,
         password: process.env.POSTGRES_PASSWORD,
         database: process.env.POSTGRES_DB,
-        synchronize: process.env.POSTGRES_SYNC === 'true',
+        // Enable synchronize when POSTGRES_SYNC is exactly 'true'
+        synchronize: Boolean(process.env.POSTGRES_SYNC == 'true'),
     }),
 );
