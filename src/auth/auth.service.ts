@@ -21,7 +21,8 @@ export class AuthService {
             throw new ConflictException('User already exists');
         }
 
-        return await this.userService.create(createUserDto);
+        const user = await this.userService.create(createUserDto);
+        return user
     }
 
     async login(@Body() loginDto: LoginDto): Promise<User> {
