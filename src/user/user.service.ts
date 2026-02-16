@@ -1,22 +1,48 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
+import { User } from './entities/user.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import * as bcrypt from 'bcrypt';
+
 
 @Injectable()
 export class UserService {
+    constructor(
+        @InjectRepository(User)
+        private readonly userRepository: Repository<User>,
+    ) {}
+    private readonly SALT_ROUNDS = 10;
+
     async create(createUserDto: CreateUserDto): Promise<User> {
-        return 'This action adds a new user';
+        const hashedPassword = await this.hashPassword(createUserDto.password);
+        const user = this.userRepository.create({
+            ...createUserDto,
+            password: hashedPassword,
+        });
+        return await this.userRepository.save(user);
     }
 
+    // findOne(id: number) {
+    //     return `This action returns a #${id} user`;
+    // }
 
-    findOne(id: number) {
-        return `This action returns a #${id} user`;
+    findOneByEmail(email: string): Promise<User | null> {
+        return this.userRepository.findOneBy({ email });
     }
 
-    findOneByEmail(email: string): Promise<User>{
-        return `This action returns a #${email} user`;
+    // remove(id: number) {
+    //     return `This action removes a #${id} user`;
+    // }
+
+    public async hashPassword(password: string): Promise<string> {
+        return await bcrypt.hash(password, this.SALT_ROUNDS);
     }
 
-    remove(id: number) {
-        return `This action removes a #${id} user`;
+    public async verifyPassword(
+        password: string,
+        hashedPassword: string,
+    ): Promise<boolean> {
+        return await bcrypt.compare(password, hashedPassword);
     }
 }

@@ -18,12 +18,10 @@ import { AuthModule } from './auth/auth.module';
         TypeOrmModule.forRootAsync({
             imports: [ConfigModule],
             inject: [ConfigService],
-            useFactory: (config: TypeConfigService): TypeOrmModuleOptions => {
-                return {
-                    ...config.get<TypeOrmModuleOptions>('database'),
-                    entities: [Task, User],
-                };
-            },
+            useFactory: (config: TypeConfigService): TypeOrmModuleOptions => ({
+                ...config.get<TypeOrmModuleOptions>('database'),
+                entities: [Task, User],
+            }),
         }),
         ConfigModule.forRoot({
             isGlobal: true,
