@@ -11,7 +11,6 @@ import { authConfig } from './config/auth.config';
 import { TypeConfigService } from './config/configuration.service';
 import { User } from './user/entities/user.entity';
 import { Task } from './task/entities/task.entity';
-import { AuthModule } from './auth/auth.module';
 
 @Module({
     imports: [
@@ -29,7 +28,6 @@ import { AuthModule } from './auth/auth.module';
             validationSchema: appConfigSchema,
             validationOptions: { abortEarly: true },
         }),
-        AuthModule,
         UserModule,
         TaskModule,
     ],

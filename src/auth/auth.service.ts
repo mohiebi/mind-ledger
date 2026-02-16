@@ -14,6 +14,8 @@ import { LoginDto } from './login.dto';
 @Injectable()
 export class AuthService {
     constructor(private readonly userService: UserService) {}
+
+    @Post('register')
     async register(createUserDto: CreateUserDto): Promise<User> {
         const existingUser = await this.userService.findOneByEmail(createUserDto.email);
 
