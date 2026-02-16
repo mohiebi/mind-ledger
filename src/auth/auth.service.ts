@@ -3,8 +3,8 @@ import {
     Body,
     ConflictException,
     Injectable,
-    NotFoundException,
     Post,
+    UnauthorizedException,
 } from '@nestjs/common';
 import { CreateUserDto } from 'src/user/dto/create-user.dto';
 import { User } from 'src/user/entities/user.entity';
@@ -26,10 +26,19 @@ export class AuthService {
 
     @Post('login')
     async login(@Body() loginDto: LoginDto): Promise<User> {
-        const user = this.userService.findOneByEmail(loginDto.email);
+        const user = await this.userService.findOneByEmail(loginDto.email);
 
         if (!user) {
-            throw new NotFoundException('user not found');
+            throw new UnauthorizedException('Invalid email or password');
+        }
+
+        const passwordValid = await this.userService.verifyPassword(
+            loginDto.password,
+            user.password,
+        );
+
+        if (!passwordValid) {
+            throw new UnauthorizedException('Invalid email or password');
         }
 
         return user;

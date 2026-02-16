@@ -14,7 +14,7 @@ export class UserService {
     ) {}
     private readonly SALT_ROUNDS = 10;
 
-    async create(createUserDto: CreateUserDto): Promise<User> {
+    public async create(createUserDto: CreateUserDto): Promise<User> {
         const hashedPassword = await this.hashPassword(createUserDto.password);
         const user = this.userRepository.create({
             ...createUserDto,
@@ -27,7 +27,7 @@ export class UserService {
     //     return `This action returns a #${id} user`;
     // }
 
-    findOneByEmail(email: string): Promise<User | null> {
+    public async findOneByEmail(email: string): Promise<User | null> {
         return this.userRepository.findOneBy({ email });
     }
 
