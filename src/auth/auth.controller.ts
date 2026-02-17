@@ -5,11 +5,13 @@ import {
     UseInterceptors,
     ClassSerializerInterceptor,
     SerializeOptions,
+    UseGuards,
+    Request,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from 'src/user/dto/create-user.dto';
 import { User } from 'src/user/entities/user.entity';
-import { LoginDto } from './login.dto';
+import { PassportLocalGuard } from './guards/passport-local.guard';
 
 @Controller('auth')
 @UseInterceptors(ClassSerializerInterceptor)
@@ -23,7 +25,8 @@ export class AuthController {
     }
 
     @Post('login')
-    async login(@Body() loginDto: LoginDto): Promise<User> {
-        return await this.authService.login(loginDto);
+    @UseGuards(PassportLocalGuard)
+    async login(@Request() req: { user: User }): Promise<string> {
+        return await this.authService.login(req.user);
     }
 }

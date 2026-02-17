@@ -1,6 +1,5 @@
 /* eslint-disable prettier/prettier */
 import {
-    Body,
     ConflictException,
     Injectable,
     UnauthorizedException,
@@ -9,12 +8,16 @@ import { CreateUserDto } from 'src/user/dto/create-user.dto';
 import { User } from 'src/user/entities/user.entity';
 import { UserService } from 'src/user/user.service';
 import { LoginDto } from './login.dto';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
-    constructor(private readonly userService: UserService) {}
+    constructor(
+        private readonly userService: UserService,
+        private readonly jwtService: JwtService,
+    ) {}
 
-    async register(createUserDto: CreateUserDto): Promise<User> {
+    public async register(createUserDto: CreateUserDto): Promise<User> {
         const existingUser = await this.userService.findOneByEmail(createUserDto.email);
 
         if (existingUser) {
@@ -22,10 +25,14 @@ export class AuthService {
         }
 
         const user = await this.userService.create(createUserDto);
-        return user
+        return user;
     }
 
-    async login(@Body() loginDto: LoginDto): Promise<User> {
+    public async login(user: User): Promise<string> {
+        return this.signIn(user);
+    }
+
+    public async validateUser(loginDto: LoginDto): Promise<User> {
         const user = await this.userService.findOneByEmail(loginDto.email);
 
         if (!user) {
@@ -42,5 +49,10 @@ export class AuthService {
         }
 
         return user;
+    }
+
+    private async signIn(user: User): Promise<string> {
+        const payload = { sub: user.id, email: user.email };
+        return this.jwtService.signAsync(payload);
     }
 }

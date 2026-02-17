@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';
+import { AuthModule } from './auth/auth.module';
 import { TaskModule } from './task/task.module';
 import { typeOrmConfig } from './config/database.config';
 import { appConfigSchema } from './config/config.types';
@@ -29,6 +30,7 @@ import { Task } from './task/entities/task.entity';
             validationOptions: { abortEarly: true },
         }),
         UserModule,
+        AuthModule,
         TaskModule,
     ],
     controllers: [AppController],
