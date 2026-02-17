@@ -28,9 +28,14 @@ export class AuthService {
         return user;
     }
 
-    public async login(user: User): Promise<string> {
-        return this.signIn(user);
-    }
+    // public async login(loginDto: LoginDto): Promise<AuthResponse> {
+    //     const user = await this.validateUser(loginDto);
+        
+    //     const response = new AuthResponse({
+    //         accessToken: await this.signIn(user),
+    //     });
+    //     return response;
+    // }
 
     public async validateUser(loginDto: LoginDto): Promise<User> {
         const user = await this.userService.findOneByEmail(loginDto.email);
@@ -51,8 +56,8 @@ export class AuthService {
         return user;
     }
 
-    private async signIn(user: User): Promise<string> {
+    public async signIn(user: User): Promise<string> {
         const payload = { sub: user.id, email: user.email };
-        return this.jwtService.signAsync(payload);
+        return await this.jwtService.signAsync(payload);
     }
 }

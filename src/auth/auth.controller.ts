@@ -12,6 +12,7 @@ import { AuthService } from './auth.service';
 import { CreateUserDto } from 'src/user/dto/create-user.dto';
 import { User } from 'src/user/entities/user.entity';
 import { PassportLocalGuard } from './guards/passport-local.guard';
+import { AuthResponse } from './auth.resoponse';
 
 @Controller('auth')
 @UseInterceptors(ClassSerializerInterceptor)
@@ -26,7 +27,8 @@ export class AuthController {
 
     @Post('login')
     @UseGuards(PassportLocalGuard)
-    async login(@Request() req: { user: User }): Promise<string> {
-        return await this.authService.login(req.user);
+    async login(@Request() req: { user: User }): Promise<AuthResponse> {
+        const token = await this.authService.signIn(req.user);
+        return new AuthResponse({ accessToken: token });
     }
 }
