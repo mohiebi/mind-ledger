@@ -28,7 +28,8 @@ export class AuthController {
     @Post('login')
     @UseGuards(PassportLocalGuard)
     async login(@Request() req: { user: User }): Promise<AuthResponse> {
-        const token = await this.authService.signIn(req.user);
-        return new AuthResponse({ accessToken: token });
+        return new AuthResponse({
+            accessToken: await this.authService.signIn(req.user),
+        });
     }
 }
