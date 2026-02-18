@@ -18,7 +18,9 @@ export class AuthService {
     ) {}
 
     public async register(createUserDto: CreateUserDto): Promise<User> {
-        const existingUser = await this.userService.findOneByEmail(createUserDto.email);
+        const existingUser = await this.userService.findOneByEmail(
+            createUserDto.email,
+        );
 
         if (existingUser) {
             throw new ConflictException('User already exists');
@@ -30,7 +32,7 @@ export class AuthService {
 
     // public async login(loginDto: LoginDto): Promise<AuthResponse> {
     //     const user = await this.validateUser(loginDto);
-        
+
     //     const response = new AuthResponse({
     //         accessToken: await this.signIn(user),
     //     });

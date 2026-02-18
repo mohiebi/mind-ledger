@@ -15,6 +15,7 @@ import { User } from 'src/user/entities/user.entity';
 import { PassportLocalGuard } from './guards/passport-local.guard';
 import { PassportJwtAuthGuard } from './guards/passport-jwt.guard';
 import { AuthResponse } from './auth.resoponse';
+import { UserProfileResponse } from './user-profile.response';
 
 @Controller('auth')
 @UseInterceptors(ClassSerializerInterceptor)
@@ -37,7 +38,12 @@ export class AuthController {
 
     @Get('me')
     @UseGuards(PassportJwtAuthGuard)
-    getProfile(@Request() req: { user: { userId: string; email: string } }) {
-        return req.user;
+    getProfile(
+        @Request() req: { user: { userId: string; email: string } }
+    ): UserProfileResponse {
+        return new UserProfileResponse({
+            userId: req.user.userId,
+            email: req.user.email,
+        });
     }
 }
