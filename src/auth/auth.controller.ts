@@ -1,6 +1,7 @@
 import {
     Controller,
     Post,
+    Get,
     Body,
     UseInterceptors,
     ClassSerializerInterceptor,
@@ -12,6 +13,7 @@ import { AuthService } from './auth.service';
 import { CreateUserDto } from 'src/user/dto/create-user.dto';
 import { User } from 'src/user/entities/user.entity';
 import { PassportLocalGuard } from './guards/passport-local.guard';
+import { PassportJwtAuthGuard } from './guards/passport-jwt.guard';
 import { AuthResponse } from './auth.resoponse';
 
 @Controller('auth')
@@ -31,5 +33,11 @@ export class AuthController {
         return new AuthResponse({
             accessToken: await this.authService.signIn(req.user),
         });
+    }
+
+    @Get('me')
+    @UseGuards(PassportJwtAuthGuard)
+    getProfile(@Request() req: { user: { userId: string; email: string } }) {
+        return req.user;
     }
 }
