@@ -1,15 +1,12 @@
-import { IsEnum, IsNotEmpty, IsString } from 'class-validator';
-import { TaskStatus } from '../entities/task.model';
+import { IsNotEmpty, IsString, MaxLength } from 'class-validator';
 
 export class CreateTaskDto {
     @IsNotEmpty()
     @IsString()
+    @MaxLength(100)
     title: string;
 
+    @IsNotEmpty()
     @IsString()
     description: string;
-
-    @IsNotEmpty()
-    @IsEnum(TaskStatus)
-    status: TaskStatus;
 }

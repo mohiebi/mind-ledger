@@ -2,6 +2,7 @@ import {
     Column,
     CreateDateColumn,
     Entity,
+    JoinColumn,
     ManyToOne,
     PrimaryGeneratedColumn,
     UpdateDateColumn,
@@ -41,6 +42,7 @@ export class Task {
     userId: string;
 
     @ManyToOne(() => User, (user) => user.tasks, { nullable: false })
+    @JoinColumn({ name: 'userId' })
     user: User;
 
     @CreateDateColumn()
