@@ -39,7 +39,7 @@ export class AuthController {
     @Get('me')
     @UseGuards(PassportJwtAuthGuard)
     getProfile(
-        @Request() req: { user: { userId: string; email: string } }
+        @Request() req: { user: { userId: string; email: string } },
     ): UserProfileResponse {
         return new UserProfileResponse({
             userId: req.user.userId,
