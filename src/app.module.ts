@@ -12,6 +12,9 @@ import { authConfig } from './config/auth.config';
 import { TypeConfigService } from './config/configuration.service';
 import { User } from './user/entities/user.entity';
 import { Task } from './task/entities/task.entity';
+import { Category } from './finance/entities/category.entity';
+import { Transaction } from './finance/entities/transaction.entity';
+import { FinanceModule } from './finance/finance.module';
 
 @Module({
     imports: [
@@ -20,7 +23,7 @@ import { Task } from './task/entities/task.entity';
             inject: [ConfigService],
             useFactory: (config: TypeConfigService): TypeOrmModuleOptions => ({
                 ...config.get('database'),
-                entities: [Task, User],
+                entities: [Task, User, Category, Transaction],
             }),
         }),
         ConfigModule.forRoot({
@@ -32,6 +35,7 @@ import { Task } from './task/entities/task.entity';
         UserModule,
         AuthModule,
         TaskModule,
+        FinanceModule,
     ],
     controllers: [AppController],
     providers: [AppService],
