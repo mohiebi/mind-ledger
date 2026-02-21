@@ -131,12 +131,13 @@ describe('TaskService', () => {
         it('should not return task belonging to another user', async () => {
             taskRepo.findOne.mockResolvedValue(null);
 
-            await service.findOne('user-2', 'task-owned-by-user-1');
+            await expect(
+                service.findOne('user-2', 'task-owned-by-user-1'),
+            ).rejects.toThrow(NotFoundException);
 
             expect(taskRepo.findOne).toHaveBeenCalledWith({
                 where: { id: 'task-owned-by-user-1', userId: 'user-2' },
             });
-            // Repo returns null so another user's task is never returned
         });
     });
 
