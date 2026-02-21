@@ -1,5 +1,4 @@
 import { Expose } from 'class-transformer';
-import { Task } from 'src/task/entities/task.entity';
 import {
     Column,
     CreateDateColumn,
@@ -8,8 +7,11 @@ import {
     PrimaryGeneratedColumn,
     UpdateDateColumn,
 } from 'typeorm';
+import { Task } from 'src/task/entities/task.entity';
+import { Category } from 'src/finance/entities/category.entity';
+import { Transaction } from 'src/finance/entities/transaction.entity';
 
-@Entity()
+@Entity('users')
 export class User {
     @PrimaryGeneratedColumn('uuid')
     @Expose()
@@ -19,22 +21,35 @@ export class User {
     @Expose()
     name: string;
 
-    @Column()
+    @Column({ unique: true })
     @Expose()
     email: string;
 
     @Column()
     password: string;
 
-    @CreateDateColumn()
+    @CreateDateColumn({ name: 'created_at' })
     @Expose()
     createdAt: Date;
 
-    @UpdateDateColumn()
+    @UpdateDateColumn({ name: 'updated_at' })
     @Expose()
     updatedAt: Date;
 
-    @OneToMany(() => Task, (task) => task.user)
+    /**
+     * Relations
+     */
+
+    @OneToMany(() => Task, (task) => task.user, { cascade: true })
     @Expose()
     tasks: Task[];
+
+    @OneToMany(() => Category, (category) => category.user, { cascade: true })
+    @Expose()
+    categories: Category[];
+
+    @OneToMany(() => Transaction, (transaction) => transaction.user, {
+        cascade: true,
+    })
+    transactions: Transaction[];
 }
